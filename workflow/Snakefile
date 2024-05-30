@@ -1,14 +1,14 @@
 import os
 configfile: "config/config.yaml"
 
-PIPELINE_HOME = os.getcwd()
+PIPELINE_HOME = workflow.basedir
 DATA_PATH = config["data_path"]  
 OUTPUT_PATH = config["output_path"]
 RESOURCE_PATH = config["resource_path"]
 
-SCRIPT_PATH = os.path.join(PIPELINE_HOME, "workflow/scripts")
-ENVS_DIR = os.path.join(PIPELINE_HOME, "workflow/envs")
-RULES_DIR = os.path.join(PIPELINE_HOME, "workflow/rules")
+SCRIPT_PATH = os.path.join(PIPELINE_HOME, "scripts")
+ENVS_DIR = os.path.join(PIPELINE_HOME, "envs")
+RULES_DIR = os.path.join(PIPELINE_HOME, "rules")
 BWA_REFERENCE = f'{RESOURCE_PATH}/{config["bwa_reference"]}'
 
 SAMPLES = []
