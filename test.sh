@@ -1,0 +1,1 @@
+snakemake -j 4 -c 4 --config data_path='{"R1": "/Users/mhb8436/Workspaces/snake8/snakemake-tutorial/data/samples/A.fastq", "R2": "/Users/mhb8436/Workspaces/snake8/snakemake-tutorial/data/samples/A.fastq"}'

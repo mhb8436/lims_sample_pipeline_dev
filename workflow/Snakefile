@@ -1,0 +1,40 @@
+import os
+configfile: "config/config.yaml"
+
+PIPELINE_HOME = os.getcwd()
+DATA_PATH = config["data_path"]  
+OUTPUT_PATH = config["output_path"]
+RESOURCE_PATH = config["resource_path"]
+
+SCRIPT_PATH = os.path.join(PIPELINE_HOME, "workflow/scripts")
+ENVS_DIR = os.path.join(PIPELINE_HOME, "workflow/envs")
+RULES_DIR = os.path.join(PIPELINE_HOME, "workflow/rules")
+BWA_REFERENCE = f'{RESOURCE_PATH}/{config["bwa_reference"]}'
+
+SAMPLES = []
+
+
+def make_sample_from_local():
+    samples = [*DATA_PATH.keys()]
+    return samples, DATA_PATH
+
+def read(wildcards):
+    print(f'read : {wildcards.sample} {READ_DICT} {SAMPLES}')
+    return READ_DICT[wildcards.sample]
+
+SAMPLES = []
+READ_DICT = dict()
+
+SAMPLES, READ_DICT = make_sample_from_local()
+
+include: RULES_DIR + "/bwa_map.smk"
+include: RULES_DIR + "/samtools_sort.smk"
+include: RULES_DIR + "/samtools_index.smk"
+include: RULES_DIR + "/bcftools_call.smk"
+include: RULES_DIR + "/plot_quals.smk"
+
+rule all:
+    input:
+        expand(f'{OUTPUT_PATH}/plots/{{sample}}_quals.svg', sample=SAMPLES),
+
+
